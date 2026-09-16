@@ -1,0 +1,284 @@
+/* ============================================================
+   Famille en OR — Feuille de style commune (Direction Artistique)
+   Reproduction non officielle pour un événement interne.
+   ============================================================ */
+
+/* ----------  Polices  ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&display=swap');
+
+/* ----------  Variables globales  ---------- */
+:root {
+  /* Bleus du fond */
+  --blue-deep: #04123f;
+  --blue-mid: #0a2a78;
+  --blue-panel-1: #1f47b8;
+  --blue-panel-2: #0c1f66;
+  --blue-cell-1: #23408f;
+  --blue-cell-2: #0e1f5c;
+
+  /* Réponses révélées */
+  --answer-1: #3f78e0;
+  --answer-2: #1c47ac;
+
+  /* Or / jaune */
+  --gold-1: #ffe14d;
+  --gold-2: #f5b70f;
+  --gold-glow: rgba(255, 210, 60, 0.75);
+
+  /* Orange néon (cadre TV) */
+  --orange-1: #ffb347;
+  --orange-2: #ff7a1a;
+  --orange-3: #d64a06;
+  --orange-glow: rgba(255, 140, 30, 0.55);
+
+  /* Turquoise (points lumineux) */
+  --cyan: #37c9f2;
+
+  /* Rouge (X / erreurs) */
+  --red-1: #ff3b30;
+  --red-2: #b71212;
+
+  /* Divers */
+  --text: #ffffff;
+  --text-shadow: 0 3px 8px rgba(0, 0, 0, 0.55);
+
+  --radius-tv: 46px;
+  --radius-board: 26px;
+}
+
+/* ----------  Reset léger  ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  color: var(--text);
+  background: #01040f;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Fond : bleu profond + "starfield" turquoise
+   ============================================================ */
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5vmin;
+  background:
+    radial-gradient(ellipse at 50% 38%, var(--blue-mid) 0%, var(--blue-deep) 62%, #020a24 100%);
+  overflow: hidden;
+}
+
+/* Halo lumineux central */
+.stage::before {
+  content: '';
+  position: absolute;
+  width: 120vmax;
+  height: 120vmax;
+  background: radial-gradient(circle, rgba(55, 130, 255, 0.22) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Points lumineux flous (bokeh) générés en CSS */
+.starfield {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.starfield span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120, 225, 255, 0.95) 0%, rgba(55, 201, 242, 0.35) 45%, transparent 70%);
+  filter: blur(0.5px);
+  animation: floaty 9s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.85; }
+  50%      { transform: translateY(-14px) scale(1.12); opacity: 1; }
+}
+
+/* ============================================================
+   Cadre TV : néon orange, multi-bordures arrondies
+   ============================================================ */
+.tv-frame {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, 94vw);
+  padding: clamp(14px, 2.2vmin, 30px);
+  border-radius: var(--radius-tv);
+  background:
+    linear-gradient(160deg, var(--orange-1) 0%, var(--orange-2) 45%, var(--orange-3) 100%);
+  box-shadow:
+    0 0 0 3px rgba(255, 220, 150, 0.55),
+    0 0 45px 6px var(--orange-glow),
+    0 26px 70px rgba(0, 0, 0, 0.65),
+    inset 0 0 30px rgba(255, 235, 190, 0.35);
+}
+
+/* Liseré blanc intérieur */
+.tv-frame__inner {
+  position: relative;
+  border-radius: calc(var(--radius-tv) - 12px);
+  padding: clamp(12px, 2vmin, 26px);
+  background:
+    linear-gradient(160deg, #ffd089 0%, #ff9b3d 55%, #c9450a 100%);
+  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+/* Écran bleu intérieur */
+.screen {
+  position: relative;
+  border-radius: var(--radius-board);
+  padding: clamp(20px, 3.4vmin, 46px) clamp(16px, 3vmin, 40px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 30%, #1b3fa0 0%, #0a1f66 60%, #061444 100%);
+  box-shadow:
+    inset 0 0 60px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 2px rgba(120, 170, 255, 0.25);
+}
+
+/* Points lumineux internes à l'écran */
+.screen__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.screen__stars span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(140, 230, 255, 0.9) 0%, rgba(55, 201, 242, 0.3) 50%, transparent 72%);
+  animation: floaty 8s ease-in-out infinite;
+}
+
+/* ============================================================
+   Titres / typographie utilitaire
+   ============================================================ */
+.condensed {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.display {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Boutons
+   ============================================================ */
+.btn {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: clamp(16px, 2vmin, 22px);
+  color: #3a1e00;
+  padding: 14px 34px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 100%);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.55),
+    0 10px 26px rgba(0, 0, 0, 0.45),
+    inset 0 2px 4px rgba(255, 255, 255, 0.7);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.7),
+    0 14px 32px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--blue {
+  color: #fff;
+  background: linear-gradient(180deg, #3f78e0 0%, #1c47ac 100%);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.35),
+    0 10px 26px rgba(0, 0, 0, 0.45),
+    inset 0 2px 4px rgba(255, 255, 255, 0.35);
+}
+
+/* ============================================================
+   Logo "Une Famille en OR"
+   ============================================================ */
+.logo {
+  text-align: center;
+  line-height: 0.9;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+
+.logo__une {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  letter-spacing: 6px;
+  font-size: clamp(14px, 2vmin, 22px);
+  color: #eaf3ff;
+}
+
+.logo__famille {
+  display: block;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(48px, 9vmin, 104px);
+  color: #ffffff;
+  text-transform: uppercase;
+  -webkit-text-stroke: 2px #1c3fa0;
+  text-shadow:
+    0 0 18px rgba(120, 180, 255, 0.6),
+    0 6px 0 #123089;
+}
+
+.logo__or {
+  display: inline-block;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(58px, 11vmin, 128px);
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fff2a8 0%, #ffd23c 40%, #f0a500 70%, #b96f00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(120, 70, 0, 0.4);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+.logo__sub {
+  display: block;
+  margin-top: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 1px;
+  font-size: clamp(13px, 1.8vmin, 20px);
+  color: var(--gold-1);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+}

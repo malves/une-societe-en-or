@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famille en OR — Accueil</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .home {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(26px, 5vmin, 60px);
+      padding: clamp(30px, 6vmin, 70px) clamp(20px, 5vmin, 60px);
+    }
+
+    .home__logo-plate {
+      position: relative;
+      padding: clamp(24px, 4vmin, 46px) clamp(40px, 8vmin, 90px);
+      border-radius: 32px;
+      background: radial-gradient(ellipse at 50% 35%, #1b3fa0 0%, #0a1f66 65%, #061444 100%);
+      box-shadow:
+        0 0 0 5px var(--gold-2),
+        0 0 26px 4px var(--gold-glow),
+        inset 0 0 50px rgba(0, 0, 0, 0.5);
+    }
+
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="starfield" id="starfield"></div>
+
+    <section class="tv-frame">
+      <div class="tv-frame__inner">
+        <div class="screen">
+          <div class="screen__stars" id="screenStars"></div>
+
+          <div class="home">
+            <div class="home__logo-plate">
+              <div class="logo">
+                <span class="logo__une">UNE</span>
+                <span class="logo__famille">SOCIÉTÉ</span>
+                <span class="logo__or">en OR</span>
+                <span class="logo__sub">ÉDITION SPÉCIALE ENTREPRISE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/stars.js"></script>
+</body>
+</html>

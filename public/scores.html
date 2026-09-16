@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famille en OR — Scores</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .scoreboard {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(24px, 4vmin, 46px);
+      padding: clamp(20px, 4vmin, 44px) clamp(16px, 3vmin, 40px);
+    }
+
+    .scoreboard__title {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      font-size: clamp(28px, 5vmin, 58px);
+      color: #fff;
+      -webkit-text-stroke: 1.5px #1c3fa0;
+      text-shadow: 0 0 16px rgba(120, 180, 255, 0.6), 0 5px 0 #123089;
+      letter-spacing: 1px;
+    }
+
+    .scoreboard__grid {
+      display: flex;
+      gap: clamp(20px, 4vmin, 56px);
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .score-card {
+      flex: 1 1 300px;
+      max-width: 420px;
+      text-align: center;
+      padding: clamp(24px, 4vmin, 42px);
+      border-radius: 24px;
+      background: radial-gradient(ellipse at 50% 30%, #1b3fa0 0%, #0a1f66 65%, #061444 100%);
+      box-shadow:
+        0 0 0 5px var(--gold-2),
+        0 0 24px 3px var(--gold-glow),
+        inset 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .score-card__name {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: clamp(20px, 3vmin, 34px);
+      color: #eaf3ff;
+      margin-bottom: 14px;
+    }
+
+    .score-card__value {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(70px, 14vmin, 150px);
+      line-height: 1;
+      background: linear-gradient(180deg, #fff2a8 0%, #ffd23c 45%, #f0a500 75%, #b96f00 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+    }
+
+    .score-card__pts {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: clamp(12px, 1.6vmin, 16px);
+      color: rgba(234, 243, 255, 0.7);
+      margin-top: 4px;
+    }
+
+    .scoreboard__actions {
+      display: flex;
+      gap: clamp(14px, 3vmin, 30px);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="starfield" id="starfield"></div>
+
+    <section class="tv-frame">
+      <div class="tv-frame__inner">
+        <div class="screen">
+          <div class="screen__stars" id="screenStars"></div>
+
+          <div class="scoreboard">
+            <h1 class="scoreboard__title">Tableau des scores</h1>
+
+            <div class="scoreboard__grid" id="cards"></div>
+
+            <div class="scoreboard__actions">
+              <a class="btn" href="plateau.html">▶ Reprendre la partie</a>
+              <a class="btn btn--blue" href="index.html">Accueil</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/stars.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Scores en temps réel (nombre de familles variable) + surbrillance du/des leader(s).
+    var cardsEl = document.getElementById('cards');
+    var cards = {}; // id -> { el, nameEl, valEl }
+
+    function esc(str) {
+      return String(str).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function makeCard(t) {
+      var el = document.createElement('div');
+      el.className = 'score-card';
+      el.innerHTML =
+        '<div class="score-card__name"></div>' +
+        '<div class="score-card__value"></div>' +
+        '<span class="score-card__pts">Points</span>';
+      cardsEl.appendChild(el);
+      return { el: el, nameEl: el.querySelector('.score-card__name'), valEl: el.querySelector('.score-card__value') };
+    }
+
+    window.FenOr.connect(function (s) {
+      var maxScore = s.teams.reduce(function (m, t) { return Math.max(m, t.score); }, 0);
+      var seen = {};
+
+      s.teams.forEach(function (t) {
+        seen[t.id] = true;
+        var c = cards[t.id];
+        if (!c) { c = makeCard(t); cards[t.id] = c; }
+        c.nameEl.textContent = t.name;
+        c.valEl.textContent = t.score;
+        var isLeader = maxScore > 0 && t.score === maxScore;
+        c.el.style.filter = (maxScore === 0 || isLeader) ? 'none' : 'grayscale(0.4) brightness(0.8)';
+      });
+
+      Object.keys(cards).forEach(function (id) {
+        if (!seen[id]) { cards[id].el.remove(); delete cards[id]; }
+      });
+    });
+  </script>
+</body>
+</html>

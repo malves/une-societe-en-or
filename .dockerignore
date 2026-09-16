@@ -1,0 +1,9 @@
+node_modules
+data
+.git
+.gitignore
+*.md
+deploy.sh
+npm-debug.log*
+.DS_Store
+.cursor

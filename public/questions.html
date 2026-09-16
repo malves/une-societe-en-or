@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famille en OR — Questions</title>
+  <link rel="stylesheet" href="css/controle.css" />
+  <link rel="stylesheet" href="css/atelier.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h1>Atelier <span>questions</span></h1>
+    <div class="topbar__links">
+      <a href="index.html">Accueil</a>
+      <a href="controle.html">Pupitre</a>
+      <a href="plateau.html" target="_blank">↗ Plateau</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Catalogue</h2>
+    <div class="toolbar">
+      <button class="b b--gold" id="btnNew">➕ Nouvelle question</button>
+      <button class="b" id="btnCampaign" disabled>Créer une campagne</button>
+      <span class="spacer"></span>
+      <span class="flash" id="flash"></span>
+    </div>
+    <p class="ans__hint" style="margin-bottom:10px">
+      Poignée pour trier · interrupteur = dans le jeu · case à cocher = campagne
+    </p>
+    <div id="qList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Campagnes de sondage</h2>
+    <div id="cList"><p class="empty">Aucune campagne pour le moment.</p></div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal__head">
+        <h3 id="modalTitle">Nouvelle question</h3>
+        <button class="modal__close" id="modalClose" title="Fermer">✕</button>
+      </div>
+      <label class="modal__label" for="modalText">Intitulé</label>
+      <textarea id="modalText" rows="3" maxlength="200" placeholder="On a demandé à 100 personnes…"></textarea>
+      <div class="modal__label-row">
+        <label class="modal__label">Réponses du plateau (optionnel)</label>
+        <span class="ans__hint">max 8</span>
+      </div>
+      <div class="ans-edit" id="modalAnswers"></div>
+      <button class="b b--ghost" id="modalAddAns">➕ Ajouter une réponse</button>
+      <label class="modal__label" style="display:flex;align-items:center;gap:10px;margin-top:16px">
+        <span class="switch"><input type="checkbox" id="modalEnabled" /><span></span></span>
+        Dans le jeu
+      </label>
+      <div class="modal__actions">
+        <button class="b b--ghost" id="modalCancel">Annuler</button>
+        <button class="b b--gold" id="modalSave">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/questions.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famille en OR — Plateau</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/plateau.css" />
+  <style>
+    /* Bouton d'activation du son (masqué une fois activé) */
+    .sound-toggle {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 50;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 14px;
+      color: #3a1e00;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      background: linear-gradient(180deg, var(--gold-1), var(--gold-2));
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      opacity: 0.85;
+    }
+    .sound-toggle.is-hidden { display: none; }
+
+    /* Petite animation de révélation */
+    .answer.just-revealed { animation: pop 0.4s ease; }
+    @keyframes pop {
+      0% { transform: scale(0.9); }
+      55% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .connection-lost {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      background: #b71212;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 13px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      display: none;
+    }
+
+    /* Écran d'accueil du plateau (avant démarrage) */
+    .home-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(16px, 3vmin, 34px);
+      padding: clamp(14px, 3vmin, 34px);
+      background: radial-gradient(ellipse at 50% 35%, #1b3fa0 0%, #0a1f66 62%, #061444 100%);
+    }
+    .home-overlay.is-hidden { display: none; }
+
+    .home-overlay__plate {
+      padding: clamp(16px, 3vmin, 32px) clamp(28px, 6vmin, 64px);
+      border-radius: 28px;
+      background: radial-gradient(ellipse at 50% 35%, #1b3fa0 0%, #0a1f66 65%, #061444 100%);
+      box-shadow:
+        0 0 0 5px var(--gold-2),
+        0 0 26px 4px var(--gold-glow),
+        inset 0 0 50px rgba(0, 0, 0, 0.5);
+    }
+    /* Logo un peu plus compact dans l'overlay pour tenir dans l'écran */
+    .home-overlay .logo__famille { font-size: clamp(38px, 6.5vmin, 78px); }
+    .home-overlay .logo__or { font-size: clamp(46px, 8vmin, 92px); }
+  </style>
+</head>
+<body>
+  <div class="connection-lost" id="connLost">Connexion perdue…</div>
+
+  <main class="stage">
+    <div class="starfield" id="starfield"></div>
+
+    <section class="tv-frame">
+      <div class="tv-frame__inner">
+        <div class="screen">
+          <div class="screen__stars" id="screenStars"></div>
+
+          <!-- Scores des deux équipes (rendus dynamiquement) -->
+          <div class="teams" id="teams"></div>
+
+          <!-- Plateau -->
+          <div class="board">
+            <div class="counter" id="counter">0</div>
+            <div class="answers" id="answers"></div>
+
+            <!-- Petit compteur d'erreurs persistant (haut droite) -->
+            <div class="strikes-mini" id="strikesMini" data-count="0">
+              <span class="strike-mini">X</span>
+              <span class="strike-mini">X</span>
+              <span class="strike-mini">X</span>
+            </div>
+
+            <!-- Grand X : flash momentané qui disparaît tout seul -->
+            <div class="strikes" id="strikes" data-count="0">
+              <span class="strike">X</span>
+              <span class="strike">X</span>
+              <span class="strike">X</span>
+            </div>
+          </div>
+
+          <!-- Bandeau de question -->
+          <div class="question-bar" id="questionBar">En attente de la partie…</div>
+
+          <!-- Écran d'accueil (affiché tant que le jeu n'est pas démarré) -->
+          <div class="home-overlay" id="homeOverlay">
+            <div class="home-overlay__plate">
+              <div class="logo">
+                <span class="logo__une">UNE</span>
+                <span class="logo__famille">SOCIÉTÉ</span>
+                <span class="logo__or">en OR</span>
+                <span class="logo__sub">ÉDITION SPÉCIALE ENTREPRISE</span>
+              </div>
+            </div>
+            <button class="btn" id="startBtn">▶ Démarrer le jeu</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="sound-toggle" id="soundToggle">🔊 Activer le son</button>
+
+  <script src="js/stars.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/plateau.js"></script>
+</body>
+</html>

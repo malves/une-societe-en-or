@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famille en OR — Campagne</title>
+  <link rel="stylesheet" href="css/controle.css" />
+  <link rel="stylesheet" href="css/atelier.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h1>Campagne <span id="titleName">sondage</span></h1>
+    <div class="topbar__links">
+      <a href="questions.html">← Questions</a>
+      <a href="controle.html">Pupitre</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="name-row">
+      <input type="text" id="campName" maxlength="80" />
+      <button class="b" id="btnRename">Renommer</button>
+      <span class="badge" id="statusBadge"></span>
+    </div>
+    <div style="margin-top:14px">
+      <div class="progress-big" id="progress">—</div>
+      <p class="ans__hint" id="progressHint"></p>
+      <div class="pending-list" id="pendingList"></div>
+    </div>
+    <p class="flash" id="flash" style="margin-top:10px"></p>
+  </div>
+
+  <div class="card" id="collectCard">
+    <h2>Participants</h2>
+    <div id="addBox">
+      <label class="modal__label" for="emails">Ajouter des emails (un par ligne, ou séparés par des virgules)</label>
+      <textarea id="emails" placeholder="marie@exemple.com&#10;jean@exemple.com"></textarea>
+      <div class="btnrow">
+        <button class="b b--gold" id="btnAdd">Ajouter et générer les liens</button>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="b" id="btnCopyAll">Tout copier</button>
+      <button class="b b--red" id="btnClose">Clôturer et regrouper</button>
+    </div>
+    <div style="overflow-x:auto;margin-top:12px">
+      <table class="table" id="inviteTable">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Statut</th>
+            <th>Lien</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="inviteBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" id="clusterCard" hidden>
+    <h2>Regrouper les réponses</h2>
+    <p class="ans__hint" style="margin-bottom:12px">
+      Glissez les réponses semblables dans une réponse type. Les points se calculent en % des participants qui ont validé, puis vous pouvez les ajuster.
+    </p>
+    <div class="tabs" id="qTabs"></div>
+    <div class="name-row" style="margin-bottom:12px">
+      <input type="text" id="newCluster" maxlength="80" placeholder="Nouvelle réponse type (ex. Brosser les dents)" />
+      <button class="b b--gold" id="btnNewCluster">Créer</button>
+    </div>
+    <div class="cluster-grid">
+      <div>
+        <h2>Réponses libres</h2>
+        <div class="dropzone" id="ungrouped"></div>
+      </div>
+      <div>
+        <h2>Réponses type</h2>
+        <div id="clusters"></div>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="b b--gold" id="btnPublish">Publier cette question sur le plateau</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/campagne.js"></script>
+</body>
+</html>

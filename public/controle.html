@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famille en OR — Pupitre animateur</title>
+  <link rel="stylesheet" href="css/controle.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h1>Pupitre <span>animateur</span></h1>
+    <div class="topbar__links">
+      <span class="status" id="status">Connexion…</span>
+      <a href="questions.html">Questions</a>
+      <a href="plateau.html" target="_blank">↗ Ouvrir le plateau</a>
+      <a href="scores.html" target="_blank">↗ Scores</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- Colonne gauche : question + réponses -->
+    <div>
+      <div class="card">
+        <h2>Question</h2>
+        <div class="question-select">
+          <button class="b" id="prevQ">◀</button>
+          <select id="questionSelect"></select>
+          <button class="b" id="nextQ">▶</button>
+        </div>
+        <div class="current-q" id="currentQ">—</div>
+      </div>
+
+      <div class="card">
+        <h2>
+          Réponses
+          <span class="ans__hint" id="ansHint">clic ou touches 1–8</span>
+        </h2>
+        <div class="answers-list" id="answersList"></div>
+        <div class="btnrow">
+          <button class="b b--gold" id="revealAll">Tout révéler</button>
+          <button class="b b--ghost" id="hideAll">Tout masquer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne droite : manche + équipes -->
+    <div>
+      <div class="card">
+        <h2>Plateau <span class="ans__hint" id="plateauState">écran d'accueil</span></h2>
+        <div class="btnrow">
+          <button class="b b--gold" id="startGame">▶ Démarrer le jeu</button>
+          <button class="b b--red" id="resetHome">↩ Reset (écran d'accueil)</button>
+          <button class="b b--ghost" id="resetRound">↺ Nouvelle manche</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Manche en cours</h2>
+        <div class="round-top">
+          <div class="pill">
+            <div class="pill__label">Cagnotte</div>
+            <div class="pill__value" id="potValue">0</div>
+          </div>
+          <div class="pill">
+            <div class="pill__label">Erreurs</div>
+            <div class="pill__value"><span class="strikes-vis" id="strikesVis"></span></div>
+          </div>
+        </div>
+
+        <div class="btnrow round-actions">
+          <button class="b b--red" id="addStrike">✗ Erreur (X)</button>
+          <button class="b b--ghost" id="clearStrikes">Effacer les X</button>
+          <button class="b b--green" id="awardActive">💰 Cagnotte → famille active</button>
+          <div class="mult-row">
+            <button class="b" data-mult="1">x1</button>
+            <button class="b" data-mult="2">x2</button>
+            <button class="b" data-mult="3">x3</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Familles <span class="ans__hint" id="teamsCount"></span></h2>
+        <div id="teamsList"></div>
+        <div class="btnrow">
+          <button class="b b--gold" id="addTeam">➕ Ajouter une famille</button>
+          <button class="b b--ghost" id="clearActive">Aucune famille active</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Raccourcis clavier</h2>
+        <div class="kbd-help">
+          <kbd>1</kbd>–<kbd>8</kbd> révéler / masquer une réponse &nbsp;·&nbsp;
+          <kbd>X</kbd> ajouter une erreur &nbsp;·&nbsp;
+          <kbd>C</kbd> effacer les erreurs<br />
+          <kbd>A</kbd> cagnotte à la famille active &nbsp;·&nbsp;
+          <kbd>←</kbd>/<kbd>→</kbd> changer de question &nbsp;·&nbsp;
+          <kbd>R</kbd> nouvelle manche
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de paramétrage d'une famille -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal__head">
+        <h3 id="modalTitle">Paramétrer la famille</h3>
+        <button class="modal__close" id="modalClose" title="Fermer">✕</button>
+      </div>
+
+      <label class="modal__label" for="modalName">Nom de la famille</label>
+      <input type="text" id="modalName" class="modal__input" maxlength="40" placeholder="Nom de la famille" />
+
+      <div class="modal__label-row">
+        <label class="modal__label">Membres</label>
+        <span class="ans__hint">👑 = chef de famille</span>
+      </div>
+      <div id="modalMembers" class="modal__members"></div>
+      <button class="b b--ghost" id="modalAddMember">➕ Ajouter un membre</button>
+
+      <div class="modal__actions">
+        <button class="b b--ghost" id="modalCancel">Annuler</button>
+        <button class="b b--gold" id="modalSave">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/controle.js"></script>
+</body>
+</html>
